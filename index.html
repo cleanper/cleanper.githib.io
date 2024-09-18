@@ -8,9 +8,12 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f7f7f7;
             color: black;
             text-align: center;
             padding-top: 20px;
+            position: relative;
+            overflow: hidden;
         }
         .download-button {
             display: inline-block;
@@ -29,12 +32,60 @@
             font-size: 14px;
             color: #666;
         }
+        .shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Ensures shapes do not interfere with interactions */
+        }
+        .shape {
+            fill: #007BFF;
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body>
     <h1>YL的资源仓库</h1>
     <p>点击下方按钮下载资源：</p>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="download-button">下载</a>
-    <div class="annotation">这只是一个下载站，想要最快获取到资源你只能到QQ群938236195</div>
+    <div class="annotation">想要最快获取到资源，可以加入QQ群：905613657</div>
+    <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
+        <!-- Shapes will be added by JavaScript -->
+    </svg>
+    <script>
+        function createRandomShape(x, y, size) {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const shape = document.createElementNS(svgNS, "circle");
+            shape.setAttribute("class", "shape");
+            shape.setAttribute("cx", x);
+            shape.setAttribute("cy", y);
+            shape.setAttribute("r", size);
+            return shape;
+        }
+
+        function generateRandomPosition(maxX, maxY, size) {
+            const x = Math.random() * (maxX - size) + size;
+            const y = Math.random() * (maxY - size) + size;
+            return { x, y };
+        }
+
+        function createShapes() {
+            const svgElem = document.querySelector(".shapes");
+            const size = 20; // Fixed size for all shapes
+            const numShapes = 50; // Number of shapes to generate
+
+            for (let i = 0; i < numShapes; i++) {
+                const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
+                const shape = createRandomShape(x, y, size);
+                svgElem.appendChild(shape);
+            }
+        }
+
+        window.onload = function() {
+            createShapes();
+        };
+    </script>
 </body>
 </html>
