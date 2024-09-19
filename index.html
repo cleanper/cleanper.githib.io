@@ -17,7 +17,7 @@
       overflow: hidden;
     }
 
-   .download-button {
+  .download-button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007BFF;
@@ -27,17 +27,17 @@
       transition: background-color 0.3s ease;
     }
 
-   .download-button:hover {
+  .download-button:hover {
       background-color: #0056b3;
     }
 
-   .annotation {
+  .annotation {
       margin-top: 10px;
       font-size: 14px;
       color: #666;
     }
 
-   .shapes {
+  .shapes {
       position: absolute;
       top: 0;
       left: 0;
@@ -46,7 +46,7 @@
       pointer-events: none;
     }
 
-   .shape {
+  .shape {
       fill: #007BFF;
       opacity: 0.3;
     }
@@ -57,7 +57,10 @@
   <h1>YL 的资源仓库</h1>
   <p>点击下方按钮下载资源：</p>
   <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="download-button">下载</a>
-  <div class="annotation">想要最快获取到资源，可以加入 QQ 群：905613657</div>
+  <div class="annotation">
+    想要最快获取到资源，可以加入 QQ 群：
+    <span id="qqGroup" onclick="copyToClipboard(this)">905613657</span>
+  </div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
   </svg>
   <script>
@@ -86,6 +89,17 @@
         const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
         svgElem.appendChild(createRandomShape(x, y, size));
       }
+    }
+
+    function copyToClipboard(element) {
+      const text = element.textContent;
+      navigator.clipboard.writeText(text)
+      .then(() => {
+          console.log('文本已复制到剪贴板');
+        })
+      .catch(err => {
+          console.error('复制操作失败，升级浏览器或开启剪切板相关功能: ', err);
+        });
     }
 
     window.onload = createShapes;
