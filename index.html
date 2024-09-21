@@ -17,7 +17,7 @@
       overflow: hidden;
     }
 
-    .download-button {
+    .button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007BFF;
@@ -25,9 +25,10 @@
       text-decoration: none;
       border-radius: 5px;
       transition: background-color 0.3s ease;
+      margin-right: 10px;
     }
 
-    .download-button:hover {
+    .button:hover {
       background-color: #0056b3;
     }
 
@@ -51,10 +52,10 @@
       opacity: 0.3;
     }
 
-    @media (max-width: 768px) {
-      body {
-        padding-top: 10px;
-      }
+    .ip-display {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
     }
   </style>
 </head>
@@ -62,11 +63,12 @@
 <body>
   <h1>YL 的资源仓库</h1>
   <p>点击下方按钮下载资源：</p>
-  <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="download-button">下载</a>
+  <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button">下载</a>
+  <a href="#" id="testIpButton" class="button">测试手机IP</a>
   <div class="annotation">
-    想要最快获取到资源，可以加入 QQ 群：
-    <span id="qqGroup">905613657</span>
+    想要最快获取到资源，可以加入 QQ 群：905613657
   </div>
+  <div id="ipDisplay" class="ip-display"></div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
   </svg>
   <script>
@@ -97,32 +99,23 @@
       }
     }
 
-    function copyToClipboard(text) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text)
-        .then(() => {
-            console.log('文本已复制到剪贴板');
-        })
-        .catch(err => {
-            console.error('复制操作失败: ', err);
-        });
-      } else {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand('copy');
-          console.log('文本已复制到剪贴板');
-        } catch (err) {
-          console.error('复制操作失败: ', err);
-        }
-        document.body.removeChild(textarea);
-      }
+    function fetchPublicIP() {
+      fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('ipDisplay').textContent = `您的公网IP是：${data.ip}`;
+      })
+      .catch(error => {
+        console.error('获取IP失败: ', error);
+        document.getElementById('ipDisplay').textContent = '获取IP失败';
+      });
     }
 
-    document.getElementById('qqGroup').addEventListener('click', function() {
-      copyToClipboard(this.textContent);
+    document.getElementById('testIpButton').addEventListener('click', function() {
+      fetchPublicIP();
+      setTimeout(() => {
+        document.getElementById('ipDisplay').textContent = '';
+      }, 30000); // 30秒后清除IP显示
     });
 
     window.onload = createShapes;
