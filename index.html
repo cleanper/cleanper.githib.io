@@ -6,14 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YL 的资源仓库</title>
   <style>
-    body {
+    body, html {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f7f7f7;
       color: black;
       text-align: center;
-      padding-top: 20px;
+      height: 100%;
+      overflow: hidden;
     }
 
     .button {
@@ -24,7 +25,6 @@
       text-decoration: none;
       border-radius: 5px;
       transition: background-color 0.3s ease;
-      margin: 10px;
     }
 
     .button:hover {
@@ -50,12 +50,6 @@
       fill: #007BFF;
       opacity: 0.3;
     }
-
-    @media (max-width: 768px) {
-      body {
-        padding-top: 10px;
-      }
-    }
   </style>
 </head>
 
@@ -66,9 +60,37 @@
   <a href="#" id="testIpButton" class="button">测试手机IP</a>
   <div class="ip-display" id="ipDisplay"></div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <rect width="100%" height="100%" fill="#007BFF"></rect>
+    <!-- Circles will be added here by JavaScript -->
   </svg>
   <script>
+    function createRandomShape(x, y, size) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const shape = document.createElementNS(svgNS, "circle");
+      shape.setAttribute("class", "shape");
+      shape.setAttribute("cx", x);
+      shape.setAttribute("cy", y);
+      shape.setAttribute("r", size);
+      return shape;
+    }
+
+    function generateRandomPosition(maxX, maxY, size) {
+      const x = Math.random() * (maxX - size) + size;
+      const y = Math.random() * (maxY - size) + size;
+      return { x, y };
+    }
+
+    function createShapes() {
+      const svgElem = document.querySelector(".shapes");
+      const size = 20;
+      const numShapes = 50; // Adjust the number of shapes as needed
+
+      for (let i = 0; i < numShapes; i++) {
+        const { x, y } = generateRandomPosition(100, 100, size);
+        const shape = createRandomShape(x, y, size);
+        svgElem.appendChild(shape);
+      }
+    }
+
     document.getElementById('testIpButton').addEventListener('click', function() {
       fetch('https://api.ipify.org?format=json')
       .then(response => response.json())
@@ -83,6 +105,10 @@
         document.getElementById('ipDisplay').textContent = '获取IP失败';
       });
     });
+
+    window.onload = function() {
+      createShapes();
+    };
   </script>
 </body>
 
