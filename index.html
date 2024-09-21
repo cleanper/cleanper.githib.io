@@ -25,6 +25,7 @@
       text-decoration: none;
       border-radius: 5px;
       transition: background-color 0.3s ease;
+      margin: 10px;
     }
 
     .button:hover {
@@ -44,11 +45,11 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      opacity: 0.3; /* Adjust the opacity to be suitable */
     }
 
     .shape {
       fill: #007BFF;
-      opacity: 0.3;
     }
   </style>
 </head>
@@ -58,11 +59,13 @@
   <p>点击下方按钮下载资源：</p>
   <a href="#" class="button">下载</a>
   <a href="#" id="testIpButton" class="button">测试手机IP</a>
+  <a href="#" id="testLatencyButton" class="button">测试网络延迟</a>
   <div class="ip-display" id="ipDisplay"></div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
     <!-- Circles will be added here by JavaScript -->
   </svg>
   <script>
+    // 创建随机圆形的函数
     function createRandomShape(x, y, size) {
       const svgNS = "http://www.w3.org/2000/svg";
       const shape = document.createElementNS(svgNS, "circle");
@@ -73,16 +76,11 @@
       return shape;
     }
 
-    function generateRandomPosition(maxX, maxY, size) {
-      const x = Math.random() * (maxX - size) + size;
-      const y = Math.random() * (maxY - size) + size;
-      return { x, y };
-    }
-
+    // 创建圆形的函数
     function createShapes() {
       const svgElem = document.querySelector(".shapes");
       const size = 20;
-      const numShapes = 50; // Adjust the number of shapes as needed
+      const numShapes = 50; // 调整圆形数量
 
       for (let i = 0; i < numShapes; i++) {
         const { x, y } = generateRandomPosition(100, 100, size);
@@ -91,18 +89,25 @@
       }
     }
 
+    // 获取本地IP地址的函数
     document.getElementById('testIpButton').addEventListener('click', function() {
+      // 在浏览器中，没有直接的方法来获取本地IP地址
+      // 但可以通过检查navigator.connection来获取一些网络信息
+      document.getElementById('ipDisplay').textContent = '本地IP地址: ' + (navigator.connection || {}).ipAddress;
+    });
+
+    // 测试网络延迟的函数
+    document.getElementById('testLatencyButton').addEventListener('click', function() {
+      const startTime = performance.now();
       fetch('https://api.ipify.org?format=json')
       .then(response => response.json())
       .then(data => {
-        document.getElementById('ipDisplay').textContent = `您的公网IP是：${data.ip}`;
-        setTimeout(() => {
-          document.getElementById('ipDisplay').textContent = '';
-        }, 30000); // 30秒后清除IP显示
+        const latency = performance.now() - startTime;
+        document.getElementById('ipDisplay').textContent = `网络延迟: ${latency.toFixed(2)} ms`;
       })
       .catch(error => {
-        console.error('获取IP失败: ', error);
-        document.getElementById('ipDisplay').textContent = '获取IP失败';
+        console.error('测试网络延迟失败: ', error);
+        document.getElementById('ipDisplay').textContent = '测试网络延迟失败';
       });
     });
 
