@@ -17,7 +17,7 @@
       overflow: hidden;
     }
 
-  .download-button {
+    .download-button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007BFF;
@@ -27,17 +27,17 @@
       transition: background-color 0.3s ease;
     }
 
-  .download-button:hover {
+    .download-button:hover {
       background-color: #0056b3;
     }
 
-  .annotation {
+    .annotation {
       margin-top: 10px;
       font-size: 14px;
       color: #666;
     }
 
-  .shapes {
+    .shapes {
       position: absolute;
       top: 0;
       left: 0;
@@ -46,9 +46,15 @@
       pointer-events: none;
     }
 
-  .shape {
+    .shape {
       fill: #007BFF;
       opacity: 0.3;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 10px;
+      }
     }
   </style>
 </head>
@@ -59,7 +65,7 @@
   <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="download-button">下载</a>
   <div class="annotation">
     想要最快获取到资源，可以加入 QQ 群：
-    <span id="qqGroup" onclick="copyToClipboard(this)">905613657</span>
+    <span id="qqGroup">905613657</span>
   </div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
   </svg>
@@ -91,16 +97,33 @@
       }
     }
 
-    function copyToClipboard(element) {
-      const text = element.textContent;
-      navigator.clipboard.writeText(text)
-      .then(() => {
-          console.log('文本已复制到剪贴板');
+    function copyToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+        .then(() => {
+            console.log('文本已复制到剪贴板');
         })
-      .catch(err => {
-          console.error('复制操作失败，升级浏览器或开启剪切板相关功能: ', err);
+        .catch(err => {
+            console.error('复制操作失败: ', err);
         });
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          console.log('文本已复制到剪贴板');
+        } catch (err) {
+          console.error('复制操作失败: ', err);
+        }
+        document.body.removeChild(textarea);
+      }
     }
+
+    document.getElementById('qqGroup').addEventListener('click', function() {
+      copyToClipboard(this.textContent);
+    });
 
     window.onload = createShapes;
   </script>
