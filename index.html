@@ -3,21 +3,21 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YL 的资源仓库</title>
   <style>
-    body, html {
+    body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f7f7f7;
       color: black;
       text-align: center;
-      height: 100%;
+      padding-top: 20px;
+      position: relative;
       overflow: hidden;
     }
 
-    .button {
+    .download-button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007BFF;
@@ -25,17 +25,16 @@
       text-decoration: none;
       border-radius: 5px;
       transition: background-color 0.3s ease;
-      margin: 10px;
     }
 
-    .button:hover {
+    .download-button:hover {
       background-color: #0056b3;
     }
 
-    .ip-display {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #333;
+    .annotation {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
     }
 
     .shapes {
@@ -45,11 +44,17 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      opacity: 0.3; /* Adjust the opacity to be suitable */
     }
 
     .shape {
       fill: #007BFF;
+      opacity: 0.3;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 10px;
+      }
     }
   </style>
 </head>
@@ -57,15 +62,14 @@
 <body>
   <h1>YL 的资源仓库</h1>
   <p>点击下方按钮下载资源：</p>
-  <a href="#" class="button">下载</a>
-  <a href="#" id="testIpButton" class="button">测试手机IP</a>
-  <a href="#" id="testLatencyButton" class="button">测试网络延迟</a>
-  <div class="ip-display" id="ipDisplay"></div>
-  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <!-- Circles will be added here by JavaScript -->
+  <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="download-button">下载</a>
+  <div class="annotation">
+    想要最快获取到资源，可以加入 QQ 群：
+    <span id="qqGroup">905613657</span>
+  </div>
+  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
   </svg>
   <script>
-    // 创建随机圆形的函数
     function createRandomShape(x, y, size) {
       const svgNS = "http://www.w3.org/2000/svg";
       const shape = document.createElementNS(svgNS, "circle");
@@ -76,44 +80,52 @@
       return shape;
     }
 
-    // 创建圆形的函数
+    function generateRandomPosition(maxX, maxY, size) {
+      const x = Math.random() * (maxX - size) + size;
+      const y = Math.random() * (maxY - size) + size;
+      return { x, y };
+    }
+
     function createShapes() {
       const svgElem = document.querySelector(".shapes");
       const size = 20;
-      const numShapes = 50; // 调整圆形数量
+      const numShapes = 50;
 
       for (let i = 0; i < numShapes; i++) {
-        const { x, y } = generateRandomPosition(100, 100, size);
-        const shape = createRandomShape(x, y, size);
-        svgElem.appendChild(shape);
+        const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
+        svgElem.appendChild(createRandomShape(x, y, size));
       }
     }
 
-    // 获取本地IP地址的函数
-    document.getElementById('testIpButton').addEventListener('click', function() {
-      // 在浏览器中，没有直接的方法来获取本地IP地址
-      // 但可以通过检查navigator.connection来获取一些网络信息
-      document.getElementById('ipDisplay').textContent = '本地IP地址: ' + (navigator.connection || {}).ipAddress;
+    function copyToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+        .then(() => {
+            console.log('文本已复制到剪贴板');
+        })
+        .catch(err => {
+            console.error('复制操作失败: ', err);
+        });
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          console.log('文本已复制到剪贴板');
+        } catch (err) {
+          console.error('复制操作失败: ', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    document.getElementById('qqGroup').addEventListener('click', function() {
+      copyToClipboard(this.textContent);
     });
 
-    // 测试网络延迟的函数
-    document.getElementById('testLatencyButton').addEventListener('click', function() {
-      const startTime = performance.now();
-      fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        const latency = performance.now() - startTime;
-        document.getElementById('ipDisplay').textContent = `网络延迟: ${latency.toFixed(2)} ms`;
-      })
-      .catch(error => {
-        console.error('测试网络延迟失败: ', error);
-        document.getElementById('ipDisplay').textContent = '测试网络延迟失败';
-      });
-    });
-
-    window.onload = function() {
-      createShapes();
-    };
+    window.onload = createShapes;
   </script>
 </body>
 
