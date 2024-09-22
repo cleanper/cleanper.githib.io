@@ -57,10 +57,7 @@
   </svg>
   <script>
     document.getElementById('fortune').addEventListener('click', function() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const lastFortuneDate = localStorage.getItem('lastFortuneDate');
-      let fortune = Math.floor(Math.random() * 101);
+      const fortune = Math.floor(Math.random() * 101);
       const message = {
         100: '超好，运气满满的一天呢！',
         90: '还行，舒服的一天',
@@ -71,16 +68,17 @@
         default: '整体来说还行！'
       };
       let result = message.default;
-
-      if (lastFortuneDate !== today.toISOString().slice(0, 10)) {
-        result = message[fortune] || message.default;
-        localStorage.setItem('lastFortuneDate', today.toISOString().slice(0, 10));
-        localStorage.setItem('lastFortuneValue', fortune.toString());
-      } else {
-        fortune = parseInt(localStorage.getItem('lastFortuneValue'), 10);
-        result = message[fortune] || message.default;
+      if (message[fortune]) {
+        result = message[fortune];
+      } else if (fortune > 80) {
+        result = message[90];
+      } else if (fortune > 60) {
+        result = message[80];
+      } else if (fortune > 20) {
+        result = message[60];
+      } else if (fortune > 0) {
+        result = message[20];
       }
-
       alert(`你的运气值是：${fortune}，${result}`);
     });
 
@@ -88,21 +86,19 @@
       const jokes = [
         '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
         '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-        // ... 其他笑话
+        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
+        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
+        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
+        '为什么时间总是走得很快？因为它有脚（分）。',
+        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
+        '为什么蚊子喜欢吸血？因为它们是“血”迷。',
+        '为什么猫头鹰晚上不睡觉？因为它们是夜猫子。',
+        '为什么大象不用电脑？因为它们怕鼠标。',
+        '为什么鸡不会飞？因为它们总是“落汤鸡”。'
       ];
       const joke = jokes[Math.floor(Math.random() * jokes.length)];
       alert(joke);
     });
-
-    function resetFortune() {
-      const now = new Date();
-      if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
-        localStorage.removeItem('lastFortuneDate');
-        localStorage.removeItem('lastFortuneValue');
-      }
-    }
-
-    setInterval(resetFortune, 60000); // 每分钟检查一次
 
     function createRandomShape(x, y, size) {
       const svgNS = "http://www.w3.org/2000/svg";
@@ -111,6 +107,7 @@
       shape.setAttribute("cx", x);
       shape.setAttribute("cy", y);
       shape.setAttribute("r", size);
+      shape.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
       return shape;
     }
 
@@ -137,12 +134,9 @@
         const shapeType = Math.random() > 0.5 ? "circle" : "triangle";
         const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
         if (shapeType === "circle") {
-          const circle = createRandomShape(x, y, size);
-          circle.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
-          svgElem.appendChild(circle);
+          svgElem.appendChild(createRandomShape(x, y, size));
         } else {
-          const triangle = createRandomTriangle(x, y, size);
-          svgElem.appendChild(triangle);
+          svgElem.appendChild(createRandomTriangle(x, y, size));
         }
       }
     }
