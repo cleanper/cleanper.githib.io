@@ -37,7 +37,6 @@
       pointer-events: none;
     }
     .shape {
-      fill: #007BFF;
       opacity: 0.3;
     }
     @media (max-width: 768px) {
@@ -59,9 +58,9 @@
   <script>
     document.getElementById('fortune').addEventListener('click', function() {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // 将时间设置为当天的午夜12点
+      today.setHours(0, 0, 0, 0);
       const lastFortuneDate = localStorage.getItem('lastFortuneDate');
-      const fortune = Math.floor(Math.random() * 101);
+      let fortune = Math.floor(Math.random() * 101);
       const message = {
         100: '超好，运气满满的一天呢！',
         90: '还行，舒服的一天',
@@ -72,60 +71,24 @@
         default: '整体来说还行！'
       };
       let result = message.default;
-      if (fortune === 100) {
-        result = message[100];
-      } else if (fortune >= 90) {
-        result = message[90];
-      } else if (fortune >= 80) {
-        result = message[80];
-      } else if (fortune >= 60) {
-        result = message[60];
-      } else if (fortune >= 20) {
-        result = message[20];
-      } else if (fortune >= 0) {
-        result = message[0];
-      }
+
       if (lastFortuneDate !== today.toISOString().slice(0, 10)) {
-        alert(`你的运气值是：${fortune}，${result}`);
+        result = message[fortune] || message.default;
         localStorage.setItem('lastFortuneDate', today.toISOString().slice(0, 10));
-        localStorage.setItem('lastFortuneValue', fortune);
+        localStorage.setItem('lastFortuneValue', fortune.toString());
       } else {
-        const lastFortuneValue = localStorage.getItem('lastFortuneValue');
-        alert('运气值已生成，无需重复生成。你的运气值是：' + lastFortuneValue + '，' + result);
+        fortune = parseInt(localStorage.getItem('lastFortuneValue'), 10);
+        result = message[fortune] || message.default;
       }
+
+      alert(`你的运气值是：${fortune}，${result}`);
     });
 
     document.getElementById('joke').addEventListener('click', function() {
       const jokes = [
         '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
         '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
-        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
-        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
-        '为什么时间总是走得很快？因为它有脚（分）。',
-        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
-        '为什么蚊子喜欢吸血？因为它们是“血”迷。',
-        '为什么猫头鹰晚上不睡觉？因为它们是夜猫子。',
-        '为什么大象不用电脑？因为它们怕鼠标。',
-        '为什么鸡不会飞？因为它们总是“落汤鸡”。',
-        '为什么动物园里的狮子总是看起来很悲伤？因为它们失去了“森林之王”的头衔。',
-        '为什么蜗牛总是迟到？因为它们走得慢。',
-        '为什么蜜蜂总是很忙？因为它们是勤劳的小蜜蜂。',
-        '为什么鱼总是看起来很惊讶？因为它们总是“鱼”瞪口呆。',
-        '为什么钢琴总是很悲伤？因为它总是被“钢琴”。',
-        '为什么篮球总是很受欢迎？因为它总是能“投篮”。',
-        '为什么猫总是看起来很神秘？因为它们是“猫”头鹰的亲戚。',
-        '为什么狗总是很忠诚？因为它们是“狗”不理。',
-        '为什么书总是很聪明？因为它们有很多页（智慧）。',
-        '为什么电话总是很健谈？因为它总是“电话”。',
-        '为什么气球总是很轻浮？因为它们没有重量。',
-        '为什么钟表总是很准时？因为它们有秒针。',
-        '为什么月亮总是很浪漫？因为它总是“月”光下。',
-        '为什么星星总是很闪耀？因为它们是夜空的钻石。',
-        '为什么云总是很悠闲？因为它们没有工作。',
-        '为什么雨总是很悲伤？因为它总是哭泣。',
-        '为什么雪总是很纯洁？因为它是冬天的新娘。',
-        '为什么风总是很自由？因为它没有束缚。'
+        // ... 其他笑话
       ];
       const joke = jokes[Math.floor(Math.random() * jokes.length)];
       alert(joke);
@@ -133,17 +96,58 @@
 
     function resetFortune() {
       const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      if (hours === 23 && minutes === 59 && seconds === 59) {
+      if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
         localStorage.removeItem('lastFortuneDate');
         localStorage.removeItem('lastFortuneValue');
       }
     }
 
-    // 调用函数以检查是否需要重置运气值
     setInterval(resetFortune, 60000); // 每分钟检查一次
+
+    function createRandomShape(x, y, size) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const shape = document.createElementNS(svgNS, "circle");
+      shape.setAttribute("class", "shape");
+      shape.setAttribute("cx", x);
+      shape.setAttribute("cy", y);
+      shape.setAttribute("r", size);
+      return shape;
+    }
+
+    function createRandomTriangle(x, y, size) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const triangle = document.createElementNS(svgNS, "polygon");
+      triangle.setAttribute("class", "shape");
+      triangle.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
+      triangle.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      return triangle;
+    }
+
+    function generateRandomPosition(maxX, maxY, size) {
+      const x = Math.random() * (maxX - size) + size;
+      const y = Math.random() * (maxY - size) + size;
+      return { x, y };
+    }
+
+    function createShapes() {
+      const svgElem = document.querySelector(".shapes");
+      const size = 20;
+      const numShapes = 50;
+      for (let i = 0; i < numShapes; i++) {
+        const shapeType = Math.random() > 0.5 ? "circle" : "triangle";
+        const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
+        if (shapeType === "circle") {
+          const circle = createRandomShape(x, y, size);
+          circle.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          svgElem.appendChild(circle);
+        } else {
+          const triangle = createRandomTriangle(x, y, size);
+          svgElem.appendChild(triangle);
+        }
+      }
+    }
+
+    window.onload = createShapes;
   </script>
 </body>
 </html>
