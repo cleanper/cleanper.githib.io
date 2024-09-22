@@ -28,11 +28,6 @@
     .button:hover {
       background-color: #0056b3;
     }
-    .annotation {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #666;
-    }
     .shapes {
       position: absolute;
       top: 0;
@@ -59,16 +54,12 @@
     <button id="joke" class="button">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button">下载</a>
   </div>
-  <div class="annotation">
-    想要最快获取到资源，可以加入 QQ 群：
-    <span id="qqGroup">905613657</span>
-  </div>
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
   </svg>
   <script>
     document.getElementById('fortune').addEventListener('click', function() {
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0); // 将时间设置为当天的午夜12点
       const lastFortuneDate = localStorage.getItem('lastFortuneDate');
       const fortune = Math.floor(Math.random() * 101);
       const message = {
@@ -78,16 +69,32 @@
         60: '还行，能活就行！',
         20: '有点差，没事20也是一个很有运气的',
         0: '凶兆，嗯不错😌',
-        default: '整体来说还行！(100超好)90，还行，舒服的一天，80还行耶！，60也算不错！，20也是运气！，0运云连连！'
+        default: '整体来说还行！'
       };
-      const result = message[fortune] || message.default;
+      let result = message.default;
+      if (fortune === 100) {
+        result = message[100];
+      } else if (fortune >= 90) {
+        result = message[90];
+      } else if (fortune >= 80) {
+        result = message[80];
+      } else if (fortune >= 60) {
+        result = message[60];
+      } else if (fortune >= 20) {
+        result = message[20];
+      } else if (fortune >= 0) {
+        result = message[0];
+      }
       if (lastFortuneDate !== today.toISOString().slice(0, 10)) {
         alert(`你的运气值是：${fortune}，${result}`);
         localStorage.setItem('lastFortuneDate', today.toISOString().slice(0, 10));
+        localStorage.setItem('lastFortuneValue', fortune);
       } else {
-        alert('运气值已生成，无需重复生成。');
+        const lastFortuneValue = localStorage.getItem('lastFortuneValue');
+        alert('运气值已生成，无需重复生成。你的运气值是：' + lastFortuneValue + '，' + result);
       }
     });
+
     document.getElementById('joke').addEventListener('click', function() {
       const jokes = [
         '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
@@ -123,50 +130,20 @@
       const joke = jokes[Math.floor(Math.random() * jokes.length)];
       alert(joke);
     });
-    document.getElementById('qqGroup').addEventListener('click', function() {
-      copyToClipboard(this.textContent);
-    });
-    function copyToClipboard(text) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => console.log('文本已复制到剪贴板')).catch(err => console.error('复制操作失败:', err));
-      } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand('copy');
-          console.log('文本已复制到剪贴板');
-        } catch (err) {
-          console.error('复制操作失败:', err);
-        }
-        document.body.removeChild(textarea);
+
+    function resetFortune() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      if (hours === 23 && minutes === 59 && seconds === 59) {
+        localStorage.removeItem('lastFortuneDate');
+        localStorage.removeItem('lastFortuneValue');
       }
     }
-    function createRandomShape(x, y, size) {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const shape = document.createElementNS(svgNS, "circle");
-      shape.setAttribute("class", "shape");
-      shape.setAttribute("cx", x);
-      shape.setAttribute("cy", y);
-      shape.setAttribute("r", size);
-      return shape;
-    }
-    function generateRandomPosition(maxX, maxY, size) {
-      const x = Math.random() * (maxX - size) + size;
-      const y = Math.random() * (maxY - size) + size;
-      return { x, y };
-    }
-    function createShapes() {
-      const svgElem = document.querySelector(".shapes");
-      const size = 20;
-      const numShapes = 50;
-      for (let i = 0; i < numShapes; i++) {
-        const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
-        svgElem.appendChild(createRandomShape(x, y, size));
-      }
-    }
-    window.onload = createShapes;
+
+    // 调用函数以检查是否需要重置运气值
+    setInterval(resetFortune, 60000); // 每分钟检查一次
   </script>
 </body>
 </html>
