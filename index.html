@@ -53,32 +53,29 @@
     <button id="joke" class="button">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button">下载</a>
   </div>
-  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
+  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
   </svg>
   <script>
-    document.getElementById('fortune').addEventListener('click', function() {
-      const fortune = Math.floor(Math.random() * 101);
-      const message = {
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function getFortuneMessage(fortune) {
+      const messages = {
         100: '超好，运气满满的一天呢！',
         90: '还行，舒服的一天',
         80: '还行耶！',
-        60: '还行，能活就行！',
-        20: '有点差，没事20也是一个很有运气的',
-        0: '凶兆，嗯不错😌',
+        60: '还行，没事',
+        20: '有点差，没事也很有运气！',
+        0: '没事一种独特的运气',
         default: '整体来说还行！'
       };
-      let result = message.default;
-      if (message[fortune]) {
-        result = message[fortune];
-      } else if (fortune > 80) {
-        result = message[90];
-      } else if (fortune > 60) {
-        result = message[80];
-      } else if (fortune > 20) {
-        result = message[60];
-      } else if (fortune > 0) {
-        result = message[20];
-      }
+      return messages[fortune] || messages[Object.keys(messages).find(key => fortune >= key * 1) || 'default'];
+    }
+
+    document.getElementById('fortune').addEventListener('click', function() {
+      const fortune = getRandomInt(101);
+      const result = getFortuneMessage(fortune);
       alert(`你的运气值是：${fortune}，${result}`);
     });
 
@@ -96,34 +93,30 @@
         '为什么大象不用电脑？因为它们怕鼠标。',
         '为什么鸡不会飞？因为它们总是“落汤鸡”。'
       ];
-      const joke = jokes[Math.floor(Math.random() * jokes.length)];
+      const joke = jokes[getRandomInt(jokes.length)];
       alert(joke);
     });
 
-    function createRandomShape(x, y, size) {
+    function createShape(type, x, y, size) {
       const svgNS = "http://www.w3.org/2000/svg";
-      const shape = document.createElementNS(svgNS, "circle");
+      const shape = document.createElementNS(svgNS, type);
       shape.setAttribute("class", "shape");
-      shape.setAttribute("cx", x);
-      shape.setAttribute("cy", y);
-      shape.setAttribute("r", size);
+      if (type === "circle") {
+        shape.setAttribute("cx", x);
+        shape.setAttribute("cy", y);
+        shape.setAttribute("r", size);
+      } else if (type === "polygon") {
+        shape.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
+      }
       shape.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
       return shape;
     }
 
-    function createRandomTriangle(x, y, size) {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const triangle = document.createElementNS(svgNS, "polygon");
-      triangle.setAttribute("class", "shape");
-      triangle.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
-      triangle.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
-      return triangle;
-    }
-
     function generateRandomPosition(maxX, maxY, size) {
-      const x = Math.random() * (maxX - size) + size;
-      const y = Math.random() * (maxY - size) + size;
-      return { x, y };
+      return {
+        x: Math.random() * (maxX - size) + size,
+        y: Math.random() * (maxY - size) + size
+      };
     }
 
     function createShapes() {
@@ -131,13 +124,9 @@
       const size = 20;
       const numShapes = 50;
       for (let i = 0; i < numShapes; i++) {
-        const shapeType = Math.random() > 0.5 ? "circle" : "triangle";
-        const { x, y } = generateRandomPosition(window.innerWidth, window.innerHeight, size);
-        if (shapeType === "circle") {
-          svgElem.appendChild(createRandomShape(x, y, size));
-        } else {
-          svgElem.appendChild(createRandomTriangle(x, y, size));
-        }
+        const shapeType = Math.random() > 0.5 ? "circle" : "polygon";
+        const { x, y } = generateRandomPosition(svgElem.clientWidth, svgElem.clientHeight, size);
+        svgElem.appendChild(createShape(shapeType, x, y, size));
       }
     }
 
