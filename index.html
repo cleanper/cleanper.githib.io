@@ -57,123 +57,121 @@
   <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
   </svg>
   <script>
-    const maxRequests = 10;
-    const timeFrame = 1000; // in milliseconds
-    let requestCount = 0;
-    let lastRequestTime = Date.now();
+    // 压缩和合并后的JavaScript代码
+    (function() {
+      const maxRequests = 10;
+      const timeFrame = 1000; // in milliseconds
+      let requestCount = 0;
+      let lastRequestTime = Date.now();
 
-    function isTooManyRequests() {
-      const currentTime = Date.now();
-      if (currentTime - lastRequestTime < timeFrame) {
-        requestCount++;
-        if (requestCount >= maxRequests) {
-          alert("访问过于频繁，请20分钟后再试。");
-          setTimeout(() => {
-            window.location.reload(true);
-          }, 1200000); // 20 minutes
-          return true;
+      function isTooManyRequests() {
+        const currentTime = Date.now();
+        if (currentTime - lastRequestTime < timeFrame) {
+          requestCount++;
+          if (requestCount >= maxRequests) {
+            alert("访问过于频繁，请20分钟后再试。");
+            setTimeout(() => {
+              window.location.reload(true);
+            }, 1200000); // 20 minutes
+            return true;
+          }
+        }
+        lastRequestTime = currentTime;
+        requestCount = 1; // reset count but keep the last request time
+        return false;
+      }
+
+      document.getElementById('fortune').addEventListener('click', function() {
+        if (isTooManyRequests()) return;
+        const fortune = getRandomInt(101);
+        const result = getFortuneMessage(fortune);
+        alert(`你的运气值是：${fortune}，${result}`);
+      });
+
+      document.getElementById('joke').addEventListener('click', function() {
+        if (isTooManyRequests()) return;
+        const jokes = [
+          '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
+          '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
+          'MAN!',
+          '你好，中国🇨🇳',
+          '911',
+          'fire!',
+          'mc1.22 is The creaking？',
+        ];
+        const joke = jokes[getRandomInt(jokes.length)];
+        alert(joke);
+      });
+
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      function getFortuneMessage(fortune) {
+        const messages = {
+          100: '超好，运气满满的一天呢！',
+          90: '非常好，舒服的一天！',
+          80: '运气也还行！',
+          60: '及格了！',
+          30: '有点不太好',
+          0: '一种独特的运气',
+        };
+        return messages[fortune] || messages[Object.keys(messages).find(key => fortune >= key * 1) || 'default'];
+      }
+
+      function createShape(type, x, y, size) {
+        const svgNS = "http://www.w3.org/2000/svg";
+        const shape = document.createElementNS(svgNS, type);
+        shape.setAttribute("class", "shape");
+        if (type === "circle") {
+          shape.setAttribute("cx", x);
+          shape.setAttribute("cy", y);
+          shape.setAttribute("r", size);
+        } else if (type === "polygon") {
+          shape.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
+        }
+        shape.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        return shape;
+      }
+
+      function generateRandomPosition(maxX, maxY, size) {
+        return {
+          x: Math.random() * (maxX - size) + size,
+          y: Math.random() * (maxY - size) + size
+        };
+      }
+
+      function adjustSVGQuality(quality) {
+        document.querySelector('.shapes').style.opacity = quality;
+      }
+
+      function createShapes() {
+        const svgElem = document.querySelector(".shapes");
+        const size = 10; // 设置固定大小
+        const numShapes = 3; // 只生成3个图形
+        for (let i = 0; i < numShapes; i++) {
+          const shapeType = "circle"; // 只生成圆形
+          const { x, y } = generateRandomPosition(svgElem.clientWidth, svgElem.clientHeight, size);
+          svgElem.appendChild(createShape(shapeType, x, y, size));
         }
       }
-      lastRequestTime = currentTime;
-      requestCount = 1; // reset count but keep the last request time
-      return false;
-    }
 
-    document.getElementById('fortune').addEventListener('click', function() {
-      if (isTooManyRequests()) return;
-      const fortune = getRandomInt(101);
-      const result = getFortuneMessage(fortune);
-      alert(`你的运气值是：${fortune}，${result}`);
-    });
+      function detectDevicePerformance() {
+        const performanceCheck = 0.75; // 设定性能检测基准
+        if (window.devicePixelRatio < performanceCheck) {
+          adjustSVGQuality(0.5);
+        } else if (window.devicePixelRatio < (performanceCheck * 0.75)) {
+          adjustSVGQuality(0.25);
+        } else {
+          adjustSVGQuality(1);
+        }
+      }
 
-    document.getElementById('joke').addEventListener('click', function() {
-      if (isTooManyRequests()) return;
-      const jokes = [
-        '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
-        '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
-        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
-        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
-        '为什么时间总是走得很快？因为它有脚（分）。',
-        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
-        'MAN！',
-        '911！',
-        'China',
-        '“你好，中国🇨🇳！”'
-      ];
-      const joke = jokes[getRandomInt(jokes.length)];
-      alert(joke);
-    });
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    function getFortuneMessage(fortune) {
-      const messages = {
-        100: '超好，运气满满的一天呢！',
-        90: '非常好，舒服的一天！',
-        80: '还行耶！',
-        60: '还行，及格也很好！',
-        20: '没事还行，不要灰心！',
-        0: '凶兆，还行，一种好的运气！',
-        default: '整体来说还行！'
+      window.onload = function() {
+        detectDevicePerformance();
+        createShapes();
       };
-      return messages[fortune] || messages[Object.keys(messages).find(key => fortune >= key * 1) || 'default'];
-    }
-
-    function createShape(type, x, y, size) {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const shape = document.createElementNS(svgNS, type);
-      shape.setAttribute("class", "shape");
-      if (type === "circle") {
-        shape.setAttribute("cx", x);
-        shape.setAttribute("cy", y);
-        shape.setAttribute("r", size);
-      } else if (type === "polygon") {
-        shape.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
-      }
-      shape.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
-      return shape;
-    }
-
-    function generateRandomPosition(maxX, maxY, size) {
-      return {
-        x: Math.random() * (maxX - size) + size,
-        y: Math.random() * (maxY - size) + size
-      };
-    }
-
-    function adjustSVGQuality(quality) {
-      document.querySelector('.shapes').style.opacity = quality;
-    }
-
-    function createShapes() {
-      const svgElem = document.querySelector(".shapes");
-      const size = 10; // 设置固定大小
-      const numShapes = 50;
-      for (let i = 0; i < numShapes; i++) {
-        const shapeType = Math.random() > 0.5 ? "circle" : "polygon";
-        const { x, y } = generateRandomPosition(svgElem.clientWidth, svgElem.clientHeight, size);
-        svgElem.appendChild(createShape(shapeType, x, y, size));
-      }
-    }
-
-    function detectDevicePerformance() {
-      const performanceCheck = 0.75; // 设定性能检测基准
-      if (window.devicePixelRatio < performanceCheck) {
-        adjustSVGQuality(0.5);
-      } else if (window.devicePixelRatio < (performanceCheck * 0.75)) {
-        adjustSVGQuality(0.25);
-      } else {
-        adjustSVGQuality(1);
-      }
-    }
-
-    window.onload = function() {
-      detectDevicePerformance();
-      createShapes();
-    };
+    })();
   </script>
 </body>
 </html>
