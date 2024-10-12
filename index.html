@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YL 的资源仓库</title>
   <style>
     body {
@@ -52,10 +53,9 @@
     <button id="fortune" class="button">每日运气值</button>
     <button id="joke" class="button">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank">下载</a>
-    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/LG0tMFTW/%C2%A72YLHANH1.20.1fabric%201.0.0.7.1.zip" class="button" target="_blank">下载我的汉化包</a>
+    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank">下载我的汉化包</a>
   </div>
-  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-  </svg>
+  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
   <script>
     const maxRequests = 10;
     const timeFrame = 1000; // in milliseconds
@@ -151,7 +151,7 @@
 
     function createShapes() {
       const svgElem = document.querySelector(".shapes");
-      const size = 10; // 设置固定大小
+      const size = 10;
       const numShapes = 50;
       for (let i = 0; i < numShapes; i++) {
         const shapeType = Math.random() > 0.5 ? "circle" : "polygon";
@@ -161,7 +161,7 @@
     }
 
     function detectDevicePerformance() {
-      const performanceCheck = 0.75; // 设定性能检测基准
+      const performanceCheck = 0.75;
       if (window.devicePixelRatio < performanceCheck) {
         adjustSVGQuality(0.5);
       } else if (window.devicePixelRatio < (performanceCheck * 0.75)) {
