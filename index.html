@@ -24,7 +24,7 @@
       text-decoration: none;
       border-radius: 5px;
       margin: 5px;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
     .button:hover {
       background-color: #0056b3;
@@ -36,6 +36,7 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      opacity: 0.5;
     }
     .shape {
       opacity: 0.3;
@@ -55,12 +56,12 @@
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank">下载</a>
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank">下载我的汉化包</a>
   </div>
-  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"></svg>
   <script>
     const maxRequests = 10;
-    const timeFrame = 1000; // in milliseconds
+    const timeFrame = 1000;
     let requestCount = 0;
-    let lastRequestTime = Date.now();
+    let lastRequestTime = 0;
 
     function isTooManyRequests() {
       const currentTime = Date.now();
@@ -68,22 +69,19 @@
         requestCount++;
         if (requestCount >= maxRequests) {
           alert("访问过于频繁，请20分钟后再试。");
-          setTimeout(() => {
-            window.location.reload(true);
-          }, 1200000); // 20 minutes
+          setTimeout(() => location.reload(true), 1200000);
           return true;
         }
       }
       lastRequestTime = currentTime;
-      requestCount = 1; // reset count but keep the last request time
+      requestCount = 1;
       return false;
     }
 
     document.getElementById('fortune').addEventListener('click', function() {
       if (isTooManyRequests()) return;
-      const fortune = getRandomInt(101);
-      const result = getFortuneMessage(fortune);
-      alert(`你的运气值是：${fortune}，${result}`);
+      const fortune = Math.floor(Math.random() * 101);
+      alert(`你的运气值是：${fortune}，${getFortuneMessage(fortune)}`);
     });
 
     document.getElementById('joke').addEventListener('click', function() {
@@ -102,13 +100,9 @@
         '“你好，中国🇨🇳！”',
         'mc1.22！',
       ];
-      const joke = jokes[getRandomInt(jokes.length)];
+      const joke = jokes[Math.floor(Math.random() * jokes.length)];
       alert(joke);
     });
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
 
     function getFortuneMessage(fortune) {
       const messages = {
@@ -120,12 +114,11 @@
         0: '凶兆，还行，一种好的运气！',
         default: '整体来说还行！'
       };
-      return messages[fortune] || messages[Object.keys(messages).find(key => fortune >= key * 1) || 'default'];
+      return messages[fortune] || messages['default'];
     }
 
     function createShape(type, x, y, size) {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const shape = document.createElementNS(svgNS, type);
+      const shape = document.createElementNS("http://www.w3.org/2000/svg", type);
       shape.setAttribute("class", "shape");
       if (type === "circle") {
         shape.setAttribute("cx", x);
@@ -145,10 +138,6 @@
       };
     }
 
-    function adjustSVGQuality(quality) {
-      document.querySelector('.shapes').style.opacity = quality;
-    }
-
     function createShapes() {
       const svgElem = document.querySelector(".shapes");
       const size = 10;
@@ -160,21 +149,7 @@
       }
     }
 
-    function detectDevicePerformance() {
-      const performanceCheck = 0.75;
-      if (window.devicePixelRatio < performanceCheck) {
-        adjustSVGQuality(0.5);
-      } else if (window.devicePixelRatio < (performanceCheck * 0.75)) {
-        adjustSVGQuality(0.25);
-      } else {
-        adjustSVGQuality(1);
-      }
-    }
-
-    window.onload = function() {
-      detectDevicePerformance();
-      createShapes();
-    };
+    createShapes();
   </script>
 </body>
 </html>
