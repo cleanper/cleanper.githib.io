@@ -8,11 +8,10 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       background-color: #f7f7f7;
       color: black;
       text-align: center;
-      padding-top: 20px;
       position: relative;
       overflow: hidden;
     }
@@ -25,131 +24,76 @@
       border-radius: 5px;
       margin: 5px;
       transition: background-color 0.3s;
+      cursor: pointer;
     }
     .button:hover {
       background-color: #0056b3;
     }
-    .shapes {
+    .color-block {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      width: 30px;
+      height: 30px;
+      background-color: #007BFF;
+      border-radius: 50%;
       pointer-events: none;
-      opacity: 0.5;
-    }
-    .shape {
-      opacity: 0.3;
+      will-change: transform, opacity;
     }
     @media (max-width: 768px) {
-      body {
-        padding-top: 10px;
-      }
+      body { padding-top: 10px; }
     }
   </style>
 </head>
 <body>
   <h1>YL 的资源仓库</h1>
-  <div class="buttons">
-    <button id="fortune" class="button">每日运气值</button>
-    <button id="joke" class="button">每日冷笑话</button>
-    <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank">下载</a>
-    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank">下载我的汉化包</a>
+  <div>
+    <button class="button" onclick="showFortune()">每日运气值</button>
+    <button class="button" onclick="tellJoke()">每日冷笑话</button>
+    <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank">下载资源</a>
+    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank">下载汉化包</a>
   </div>
-  <svg class="shapes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"></svg>
   <script>
-    const maxRequests = 10;
-    const timeFrame = 1000;
-    let requestCount = 0;
-    let lastRequestTime = 0;
+    const jokes = [
+      '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
+      '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
+      '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
+      '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
+      '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
+      '为什么时间总是走得很快？因为它有脚（分）。',
+      '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
+      'MAN！',
+      '911！',
+      'China',
+      '“你好，中国🇨🇳！”',
+      'mc1.22！'
+    ];
 
-    function isTooManyRequests() {
-      const currentTime = Date.now();
-      if (currentTime - lastRequestTime < timeFrame) {
-        requestCount++;
-        if (requestCount >= maxRequests) {
-          alert("访问过于频繁，请20分钟后再试。");
-          setTimeout(() => location.reload(true), 1200000);
-          return true;
-        }
-      }
-      lastRequestTime = currentTime;
-      requestCount = 1;
-      return false;
+    function showFortune() {
+      const fortune = Math.floor(Math.random() * 101);
+      alert(`运气值：${fortune} - 整体来说还行！`);
+      addColorBlock();
     }
 
-    document.getElementById('fortune').addEventListener('click', function() {
-      if (isTooManyRequests()) return;
-      const fortune = Math.floor(Math.random() * 101);
-      alert(`你的运气值是：${fortune}，${getFortuneMessage(fortune)}`);
-    });
-
-    document.getElementById('joke').addEventListener('click', function() {
-      if (isTooManyRequests()) return;
-      const jokes = [
-        '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
-        '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
-        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
-        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
-        '为什么时间总是走得很快？因为它有脚（分）。',
-        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
-        'MAN！',
-        '911！',
-        'China',
-        '“你好，中国🇨🇳！”',
-        'mc1.22！',
-      ];
+    function tellJoke() {
       const joke = jokes[Math.floor(Math.random() * jokes.length)];
       alert(joke);
-    });
-
-    function getFortuneMessage(fortune) {
-      const messages = {
-        100: '超好，运气满满的一天呢！',
-        90: '非常好，舒服的一天！',
-        80: '还行耶！',
-        60: '还行，及格也很好！',
-        20: '没事还行，不要灰心！',
-        0: '凶兆，还行，一种好的运气！',
-        default: '整体来说还行！'
-      };
-      return messages[fortune] || messages['default'];
+      addColorBlock();
     }
 
-    function createShape(type, x, y, size) {
-      const shape = document.createElementNS("http://www.w3.org/2000/svg", type);
-      shape.setAttribute("class", "shape");
-      if (type === "circle") {
-        shape.setAttribute("cx", x);
-        shape.setAttribute("cy", y);
-        shape.setAttribute("r", size);
-      } else if (type === "polygon") {
-        shape.setAttribute("points", `${x - size},${y - size} ${x + size},${y - size} ${x},${y + size * Math.sqrt(3) / 2}`);
-      }
-      shape.style.fill = `hsl(${Math.random() * 360}, 100%, 50%)`;
-      return shape;
+    function addColorBlock() {
+      const block = document.createElement('div');
+      block.className = 'color-block';
+      block.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+      block.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      document.body.appendChild(block);
+      block.animate([
+        { transform: 'translateY(0)', opacity: 1 },
+        { transform: `translateY(${window.innerHeight + 30}px)`, opacity: 0 }
+      ], {
+        duration: Math.random() * 2000 + 2000,
+        easing: 'ease-in-out',
+        fill: 'forwards'
+      }).onfinish = () => block.remove();
     }
-
-    function generateRandomPosition(maxX, maxY, size) {
-      return {
-        x: Math.random() * (maxX - size) + size,
-        y: Math.random() * (maxY - size) + size
-      };
-    }
-
-    function createShapes() {
-      const svgElem = document.querySelector(".shapes");
-      const size = 10;
-      const numShapes = 50;
-      for (let i = 0; i < numShapes; i++) {
-        const shapeType = Math.random() > 0.5 ? "circle" : "polygon";
-        const { x, y } = generateRandomPosition(svgElem.clientWidth, svgElem.clientHeight, size);
-        svgElem.appendChild(createShape(shapeType, x, y, size));
-      }
-    }
-
-    createShapes();
   </script>
 </body>
 </html>
