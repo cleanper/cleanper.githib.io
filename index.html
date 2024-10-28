@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YL 的资源仓库</title>
+  <title>YLCraft</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
       background-color: #f7f7f7;
-      color: black;
+      color: #0000ff;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -49,7 +49,7 @@
   </style>
 </head>
 <body onclick="generateTriangle(event)">
-  <h1>YL 的资源仓库</h1>
+  <h1>YLCraft</h1>
   <div>
     <button class="button" id="jokeButton">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer">下载资源</a>
@@ -76,24 +76,34 @@
       jokeButton.addEventListener('click', tellJoke);
 
       function tellJoke() {
-        const joke = jokes[Math.floor(Math.random() * jokes.length)];
-        alert(joke);
+        try {
+          const joke = jokes[Math.floor(Math.random() * jokes.length)];
+          alert(joke);
+        } catch (error) {
+          alert('似乎出现了一些问题，请尝试清理此网站缓存后再访问。');
+          console.error('Error telling joke:', error);
+        }
       }
 
       function generateTriangle(e) {
-        const triangle = document.createElement('div');
-        triangle.className = 'triangle';
-        triangle.style.left = `${e.clientX}px`;
-        triangle.style.top = `${e.clientY}px`;
-        triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        document.body.appendChild(triangle);
+        try {
+          const triangle = document.createElement('div');
+          triangle.className = 'triangle';
+          triangle.style.left = `${e.clientX}px`;
+          triangle.style.top = `${e.clientY}px`;
+          triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          document.body.appendChild(triangle);
 
-        triangle.style.opacity = '1';
-        triangle.style.transform = 'rotate(60deg)';
-        
-        setTimeout(() => {
-          triangle.remove();
-        }, 500);
+          triangle.style.opacity = '1';
+          triangle.style.transform = 'rotate(60deg)';
+          
+          setTimeout(() => {
+            triangle.remove();
+          }, 500);
+        } catch (error) {
+          alert('似乎出现了一些问题，请尝试清理此网站缓存后再访问。');
+          console.error('Error generating triangle:', error);
+        }
       }
     });
   </script>
