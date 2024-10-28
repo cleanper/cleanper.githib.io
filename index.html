@@ -38,6 +38,14 @@
       transition: all 0.5s ease-in-out;
       opacity: 0;
     }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .button {
+        padding: 8px 16px;
+      }
+    }
   </style>
 </head>
 <body onclick="generateTriangle(event)">
@@ -66,7 +74,11 @@
 
       function tellJoke() {
         const joke = jokes.length > 0 ? jokes[Math.floor(Math.random() * jokes.length)] : '没有笑话了';
-        alert(joke);
+        if (joke) {
+          alert(joke);
+        } else {
+          console.error('Joke array is empty');
+        }
       }
 
       function generateTriangle(e) {
