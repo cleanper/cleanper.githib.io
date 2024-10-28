@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="no-js">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YL 的资源仓库</title>
   <style>
@@ -44,6 +43,7 @@
       }
       .button {
         padding: 8px 16px;
+        font-size: 14px;
       }
     }
   </style>
@@ -51,7 +51,7 @@
 <body onclick="generateTriangle(event)">
   <h1>YL 的资源仓库</h1>
   <div>
-    <button class="button" onclick="tellJoke()">每日冷笑话</button>
+    <button class="button" id="jokeButton">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer">下载资源</a>
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
   </div>
@@ -71,14 +71,13 @@
         '“你好，中国🇨🇳！”',
         'mc1.22！'
       ];
+      const jokeButton = document.getElementById('jokeButton');
+
+      jokeButton.addEventListener('click', tellJoke);
 
       function tellJoke() {
-        const joke = jokes.length > 0 ? jokes[Math.floor(Math.random() * jokes.length)] : '没有笑话了';
-        if (joke) {
-          alert(joke);
-        } else {
-          console.error('Joke array is empty');
-        }
+        const joke = jokes[Math.floor(Math.random() * jokes.length)];
+        alert(joke);
       }
 
       function generateTriangle(e) {
