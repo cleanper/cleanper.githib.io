@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="no-js">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YL 的资源仓库</title>
   <style>
@@ -47,41 +48,43 @@
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
   </div>
   <script>
-    const jokes = [
-      '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
-      '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-      '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
-      '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
-      '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
-      '为什么时间总是走得很快？因为它有脚（分）。',
-      '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
-      'MAN！',
-      '911！',
-      'China',
-      '“你好，中国🇨🇳！”',
-      'mc1.22！'
-    ];
+    document.addEventListener("DOMContentLoaded", function() {
+      const jokes = [
+        '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
+        '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
+        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
+        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
+        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
+        '为什么时间总是走得很快？因为它有脚（分）。',
+        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
+        'MAN！',
+        '911！',
+        'China',
+        '“你好，中国🇨🇳！”',
+        'mc1.22！'
+      ];
 
-    function tellJoke() {
-      const joke = jokes[Math.floor(Math.random() * jokes.length)];
-      alert(joke);
-    }
+      function tellJoke() {
+        const joke = jokes.length > 0 ? jokes[Math.floor(Math.random() * jokes.length)] : '没有笑话了';
+        alert(joke);
+      }
 
-    function generateTriangle(e) {
-      const triangle = document.createElement('div');
-      triangle.className = 'triangle';
-      triangle.style.left = `${e.clientX}px`;
-      triangle.style.top = `${e.clientY}px`;
-      triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-      document.body.appendChild(triangle);
+      function generateTriangle(e) {
+        const triangle = document.createElement('div');
+        triangle.className = 'triangle';
+        triangle.style.left = `${e.clientX}px`;
+        triangle.style.top = `${e.clientY}px`;
+        triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(triangle);
 
-      triangle.style.opacity = '1';
-      triangle.style.transform = 'rotate(60deg)';
-      
-      setTimeout(() => {
-        triangle.remove();
-      }, 500);
-    }
+        triangle.style.opacity = '1';
+        triangle.style.transform = 'rotate(60deg)';
+        
+        setTimeout(() => {
+          triangle.remove();
+        }, 500);
+      }
+    });
   </script>
 </body>
 </html>
