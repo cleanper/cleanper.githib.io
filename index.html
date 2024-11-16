@@ -1,25 +1,111 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>(1) YL创作</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YLCraft</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f7f7f7;
+      color: #0000ff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 5px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .triangle {
+      position: absolute;
+      border: 10px solid transparent;
+      border-bottom: 20px solid;
+      transform-origin: top center;
+      transition: all 0.5s ease-in-out;
+      opacity: 0;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
-<body>
-    <h1>YL创作</h1>
-    <p>(2) 如果闪退，请告知创作者。</p>
+<body onclick="generateTriangle(event)">
+  <h1>YLCraft</h1>
+  <div>
+    <button class="button" id="jokeButton">每日冷笑话</button>
+    <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer">下载资源</a>
+    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const jokes = [
+        '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
+        '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
+        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
+        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
+        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
+        '为什么时间总是走得很快？因为它有脚（分）。',
+        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
+        'MAN！',
+        '911！',
+        'China',
+        '“你好，中国🇨🇳！”',
+        'mc1.22！'
+      ];
+      const jokeButton = document.getElementById('jokeButton');
+
+      jokeButton.addEventListener('click', tellJoke);
+
+      function tellJoke() {
+        try {
+          const joke = jokes[Math.floor(Math.random() * jokes.length)];
+          alert(joke);
+        } catch (error) {
+          alert('似乎出现了一些问题，请尝试清理此网站缓存后再访问。');
+          console.error('Error telling joke:', error);
+        }
+      }
+
+      function generateTriangle(e) {
+        try {
+          const triangle = document.createElement('div');
+          triangle.className = 'triangle';
+          triangle.style.left = `${e.clientX}px`;
+          triangle.style.top = `${e.clientY}px`;
+          triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          document.body.appendChild(triangle);
+
+          triangle.style.opacity = '1';
+          triangle.style.transform = 'rotate(60deg)';
+          
+          setTimeout(() => {
+            triangle.remove();
+          }, 500);
+        } catch (error) {
+          alert('似乎出现了一些问题，请尝试清理此网站缓存后再访问。');
+          console.error('Error generating triangle:', error);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
