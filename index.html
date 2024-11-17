@@ -54,7 +54,7 @@
     <button class="button" id="jokeButton">每日冷笑话</button>
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer">下载资源</a>
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
-    <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/Reusrs/YL1.0.1.5.2.0.APK" class="button" target="_blank" rel="noopener noreferrer">直接下载APK</a>
+    <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/Reusrs2/YL.1.0.1.5fix.APK" class="button" target="_blank" rel="noopener noreferrer">直接下载APK</a>
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -90,8 +90,8 @@
         try {
           const triangle = document.createElement('div');
           triangle.className = 'triangle';
-          triangle.style.left = `${e.clientX}px`;
-          triangle.style.top = `${e.clientY}px`;
+          triangle.style.left = `${e.clientX - 20}px`; // 调整三角形位置，使其居中显示
+          triangle.style.top = `${e.clientY - 20}px`;
           triangle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
           document.body.appendChild(triangle);
 
