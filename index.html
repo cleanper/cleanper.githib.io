@@ -91,13 +91,8 @@
       jokeButton.addEventListener('click', tellJoke);
 
       function tellJoke() {
-        try {
-          const joke = jokes[Math.floor(Math.random() * jokes.length)];
-          alert(joke);
-        } catch (error) {
-          alert('似乎出现了一些问题，请尝试清理此网站缓存后再访问。');
-          console.error('Error telling joke:', error);
-        }
+        const joke = jokes[Math.floor(Math.random() * jokes.length)];
+        alert(joke);
       }
 
       function calculateCircle() {
@@ -108,7 +103,7 @@
         }
         const circumference = 2 * Math.PI * radius;
         const area = Math.PI * radius * radius;
-        alert('圆的周长: ${circumference.toFixed(2)}，面积: ${area.toFixed(2)}');
+        alert(`圆的周长: ${circumference.toFixed(2)}，面积: ${area.toFixed(2)}`);
       }
 
       function calculateTrack() {
@@ -119,7 +114,7 @@
           return;
         }
         const totalCircumference = 2 * Math.PI * circleRadius + 2 * trackLength;
-        alert('跑道的周长: ${totalCircumference.toFixed(2)}');
+        alert(`跑道的周长: ${totalCircumference.toFixed(2)}`);
       }
     });
   </script>
