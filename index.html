@@ -29,12 +29,25 @@
     .button:hover {
       background-color: #0056b3;
     }
+    .input-group {
+      margin: 10px 0;
+    }
+    input[type="text"] {
+      padding: 8px 15px;
+      margin-right: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
     @media (max-width: 600px) {
       body {
         padding: 10px;
       }
       .button {
         padding: 8px 16px;
+        font-size: 14px;
+      }
+      input[type="text"] {
+        padding: 6px 12px;
         font-size: 14px;
       }
     }
@@ -48,15 +61,16 @@
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
     <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/Reusrs3/YL.1.0.1.7.APK" class="button" target="_blank" rel="noopener noreferrer">直接下载APK</a>
   </div>
-  <div>
+  <div class="input-group">
     <input type="text" id="radiusInput" placeholder="输入半径">
     <button class="button" onclick="calculateCircle()">计算圆周长和面积</button>
   </div>
-  <div>
+  <div class="input-group">
     <input type="text" id="trackLengthInput" placeholder="输入跑道长度">
     <input type="text" id="circleRadiusInput" placeholder="输入半圆半径">
     <button class="button" onclick="calculateTrack()">计算跑道周长</button>
   </div>
+  <div id="result"></div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const jokes = [
@@ -91,14 +105,19 @@
         const radius = parseFloat(document.getElementById('radiusInput').value);
         const circumference = 2 * Math.PI * radius;
         const area = Math.PI * radius * radius;
-        alert(`圆的周长: ${circumference.toFixed(2)}，面积: ${area.toFixed(2)}`);
+        displayResult(`圆的周长: ${circumference.toFixed(2)}，面积: ${area.toFixed(2)}`);
       }
 
       function calculateTrack() {
         const trackLength = parseFloat(document.getElementById('trackLengthInput').value);
         const circleRadius = parseFloat(document.getElementById('circleRadiusInput').value);
         const totalCircumference = 2 * Math.PI * circleRadius + 2 * trackLength;
-        alert(`跑道的周长: ${totalCircumference.toFixed(2)}`);
+        displayResult(`跑道的周长: ${totalCircumference.toFixed(2)}`);
+      }
+
+      function displayResult(result) {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = result;
       }
     });
   </script>
