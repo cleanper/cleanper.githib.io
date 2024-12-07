@@ -57,18 +57,9 @@
   <h1>YLCraft</h1>
   <div>
     <button class="button" id="jokeButton">每日冷笑话</button>
-    <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer">下载资源</a>
-    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer">下载汉化包</a>
-    <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/Reusrs3/YL.1.0.1.7.APK" class="button" target="_blank" rel="noopener noreferrer">直接下载APK</a>
-  </div>
-  <div class="input-group">
-    <input type="number" id="radiusInput" placeholder="输入半径">
-    <button class="button" onclick="calculateCircle()">计算圆周长和面积</button>
-  </div>
-  <div class="input-group">
-    <input type="number" id="trackLengthInput" placeholder="输入跑道长度">
-    <input type="number" id="circleRadiusInput" placeholder="输入半圆半径">
-    <button class="button" onclick="calculateTrack()">计算跑道周长</button>
+    <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer" id="resourceButton">下载资源</a>
+    <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer" id="translationButton">下载汉化包</a>
+    <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/ReusrsNew10/New-the_man_form_the_fog_10.APK" class="button" target="_blank" rel="noopener noreferrer" id="apkButton">直接下载APK</a>
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -95,26 +86,22 @@
         alert(joke);
       }
 
-      function calculateCircle() {
-        const radius = parseFloat(document.getElementById('radiusInput').value);
-        if (isNaN(radius) || radius <= 0) {
-          alert('请输入有效的半径值');
-          return;
-        }
-        const circumference = 2 * Math.PI * radius;
-        const area = Math.PI * radius * radius;
-        alert(`圆的周长: ${circumference.toFixed(2)}，面积: ${area.toFixed(2)}`);
-      }
+      // 记录下载按钮点击次数
+      document.getElementById('resourceButton').addEventListener('click', function() {
+        updateClickCount('resourceButton');
+      });
+      document.getElementById('translationButton').addEventListener('click', function() {
+        updateClickCount('translationButton');
+      });
+      document.getElementById('apkButton').addEventListener('click', function() {
+        updateClickCount('apkButton');
+      });
 
-      function calculateTrack() {
-        const trackLength = parseFloat(document.getElementById('trackLengthInput').value);
-        const circleRadius = parseFloat(document.getElementById('circleRadiusInput').value);
-        if (isNaN(trackLength) || isNaN(circleRadius) || trackLength <= 0 || circleRadius <= 0) {
-          alert('请输入有效的数值');
-          return;
-        }
-        const totalCircumference = 2 * Math.PI * circleRadius + 2 * trackLength;
-        alert(`跑道的周长: ${totalCircumference.toFixed(2)}`);
+      function updateClickCount(buttonId) {
+        let count = localStorage.getItem(buttonId) || 0;
+        count = parseInt(count) + 1;
+        localStorage.setItem(buttonId, count);
+        alert(`感谢您的点击！${buttonId}已被点击了${count}次。`);
       }
     });
   </script>
