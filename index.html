@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mc1.22</title>
+  <title>MC1.22</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -64,29 +64,26 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const jokes = [
-        '为什么电脑经常生病？因为它的窗户（Windows）总是开着。',
-        '为什么数学书看起来总是很悲伤？因为它有太多的问题。',
-        '为什么足球场上总是很暗？因为有人把光（goal）踢走了。',
-        '为什么冰箱里的灯总是开着？因为它害怕黑暗。',
-        '为什么海洋里没有电脑？因为它们总是遇到海浪（上网）。',
-        '为什么时间总是走得很快？因为它有脚（分）。',
-        '为什么海豚总是快乐的？因为它们是海洋的微笑大使。',
+        '面积',
+        '直径',
+        '半径',
+        '半圆',
+        '我的世界！',
+        '5角钱买一听水果罐头',
+        'Hey！',
         'MAN！',
         '911！',
         'China',
-        '“你好，中国🇨🇳！”',
+        '“你好，中国！”',
         'mc1.22！'
       ];
       const jokeButton = document.getElementById('jokeButton');
 
-      jokeButton.addEventListener('click', tellJoke);
-
-      function tellJoke() {
+      jokeButton.addEventListener('click', function() {
         const joke = jokes[Math.floor(Math.random() * jokes.length)];
         alert(joke);
-      }
+      });
 
-      // 记录下载按钮点击次数
       document.getElementById('resourceButton').addEventListener('click', function() {
         updateClickCount('resourceButton');
       });
@@ -101,7 +98,7 @@
         let count = localStorage.getItem(buttonId) || 0;
         count = parseInt(count) + 1;
         localStorage.setItem(buttonId, count);
-        alert(`感谢您的点击！${buttonId}已被点击了${count}次。`);
+        alert(buttonId + '已被点击了' + count + '次。');
       }
     });
   </script>
