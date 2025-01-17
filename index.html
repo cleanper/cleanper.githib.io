@@ -60,6 +60,9 @@
     <a href="https://www.123pan.com/s/ViFlVv-e09hh.html" class="button" target="_blank" rel="noopener noreferrer" id="resourceButton">下载资源</a>
     <a href="https://cdn.modrinth.com/data/cAewElrd/versions/79dscLtu/%C2%A72YLHANH1.20.1fabric%201.0.1.zip" class="button" target="_blank" rel="noopener noreferrer" id="translationButton">下载汉化包</a>
     <a href="https://github.com/cleanper/The-man-from-the-fog-mobile-phone/releases/download/ReusrsNew10/New-the_man_form_the_fog_10.APK" class="button" target="_blank" rel="noopener noreferrer" id="apkButton">直接下载APK</a>
+    <a href="https://github.com/FCL-Team/FCLRendererPlugin/releases/download/Renderer/LTW.apk" class="button" target="_blank" rel="noopener noreferrer" id="ltwButton">下载LTW渲染器</a>
+    <a href="https://github.com/FCL-Team/FCLDriverPlugin/releases/download/Turnip/Turnip.24.3.3.R27C.SDK29.apk" class="button" target="_blank" rel="noopener noreferrer" id="plugin10Button">下载必要插件(安卓10)</a>
+    <a href="https://github.com/FCL-Team/FCLDriverPlugin/releases/download/Turnip/Turnip.24.3.3.R27C.SDK33.apk" class="button" target="_blank" rel="noopener noreferrer" id="pluginNewButton">下载必要插件(最新安卓)</a>
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -92,6 +95,15 @@
       });
       document.getElementById('apkButton').addEventListener('click', function() {
         updateClickCount('apkButton');
+      });
+      document.getElementById('ltwButton').addEventListener('click', function() {
+        updateClickCount('ltwButton');
+      });
+      document.getElementById('plugin10Button').addEventListener('click', function() {
+        updateClickCount('plugin10Button');
+      });
+      document.getElementById('pluginNewButton').addEventListener('click', function() {
+        updateClickCount('pluginNewButton');
       });
 
       function updateClickCount(buttonId) {
